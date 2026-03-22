@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Prof Sigorta",
+  title: "Prof Sigorta ",
   description: "Doğru Poliçe, Doğru Fiyat",
 };
 
