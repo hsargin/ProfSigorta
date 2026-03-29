@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+export const metadata = {
+  title: "Trafik Sigortası Teklif Al | Prof Sigorta",
+  description:
+    "Trafik sigortası teklifi almak için Prof Sigorta üzerinden hızlı başvuru yapın. Uygun fiyatlı teklif seçenekleri için hemen formu doldurun.",
+};
 
 export default function Page() {
   const [isMobile, setIsMobile] = useState(false);
