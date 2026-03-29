@@ -1,11 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-export const metadata = {
-  title: "Trafik Sigortası Teklif Al | Prof Sigorta",
-  description:
-    "Trafik sigortası teklifi almak için Prof Sigorta üzerinden hızlı başvuru yapın. Uygun fiyatlı teklif seçenekleri için hemen formu doldurun.",
-};
 
 export default function Page() {
   const [isMobile, setIsMobile] = useState(false);
@@ -125,7 +120,6 @@ Kaynak: Web Form`;
     borderRadius: isMobile ? 18 : 24,
     padding: isMobile ? "14px 12px 14px" : "18px 16px 14px",
     boxSizing: "border-box",
-    minHeight: "auto",
     width: "100%",
     overflow: "hidden",
   };
