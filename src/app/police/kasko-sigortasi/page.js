@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function KaskoSigortasiPage() {
+  const [isMobile, setIsMobile] = useState(false);
+
   const [form, setForm] = useState({
     ad: "",
     soyad: "",
@@ -15,182 +17,228 @@ export default function KaskoSigortasiPage() {
     model: "",
     yil: "",
     hasar: "",
+    ekNot: "",
   });
 
   const [files, setFiles] = useState([]);
 
-  const handleChange = (e) => {
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 900);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  function handleChange(e) {
     const { name, value } = e.target;
+
+    let newValue = value;
+
+    if (name === "plaka") {
+      newValue = value.toUpperCase();
+    }
+
+    if (name === "ruhsat") {
+      newValue = value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+    }
+
+    if (name === "tc") {
+      newValue = value.replace(/\D/g, "").slice(0, 11);
+    }
+
+    if (name === "telefon") {
+      newValue = value.replace(/[^\d\s()+-]/g, "").slice(0, 18);
+    }
+
+    if (name === "yil") {
+      newValue = value.replace(/\D/g, "").slice(0, 4);
+    }
+
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: newValue,
     }));
-  };
+  }
 
-  const handleFileChange = (e) => {
+  function handleFileChange(e) {
     const selectedFiles = Array.from(e.target.files || []);
     setFiles(selectedFiles);
-  };
+  }
 
-  const handleSubmit = () => {
+  function handleSubmit() {
     const fileNote =
       files.length > 0
-        ? '\nFotoğraf Durumu: ${files.length} adet fotoğraf seçildi. Gerekirse ayrıca WhatsApp üzerinden iletilecek.'
-        : '\nFotoğraf Durumu: Fotoğraf eklenmedi.;'
+        ? `Fotoğraf Durumu: ${files.length} adet fotoğraf seçildi. Gerekirse ayrıca WhatsApp üzerinden iletilecek.`
+        : "Fotoğraf Durumu: Fotoğraf eklenmedi.";
 
-    const message = `Merhaba, Kasko Sigortası için teklif almak istiyorum.
+    const message = `KASKO SİGORTASI TEKLİF TALEBİ
 
 Ad: ${form.ad}
 Soyad: ${form.soyad}
 TC Kimlik No: ${form.tc}
 Telefon: ${form.telefon}
 E-posta: ${form.email}
+
 Plaka: ${form.plaka}
 Ruhsat Seri No: ${form.ruhsat}
 Araç Marka: ${form.marka}
 Araç Model: ${form.model}
 Model Yılı: ${form.yil}
-Hasar Durumu: ${form.hasar}${fileNote}`;
+Hasar Durumu: ${form.hasar}
+
+Ek Not: ${form.ekNot}
+
+${fileNote}
+
+Kaynak: Web Form`;
 
     const whatsappUrl = `https://wa.me/905301096161?text=${encodeURIComponent(
       message
     )}`;
 
     window.open(whatsappUrl, "_blank");
-  };
+  }
 
-  const openWhatsappDirect = () => {
+  function openWhatsappDirect() {
     window.open("https://wa.me/905301096161", "_blank");
-  };
+  }
 
   const pageStyle = {
     minHeight: "100vh",
-    background: "#f6f8fb",
+    background: "#f3f4f6",
+    padding: isMobile ? "10px 10px 18px" : "18px 18px 28px",
+    fontFamily: "Inter, Arial, sans-serif",
     boxSizing: "border-box",
   };
 
-  const headerStyle = {
+  const topBarStyle = {
     width: "100%",
     background: "#ffffff",
     borderBottom: "1px solid #e5e7eb",
-    padding: "10px 20px",
+    padding: isMobile ? "10px 12px" : "14px 20px",
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
     boxSizing: "border-box",
+    marginBottom: isMobile ? 10 : 16,
+    borderRadius: isMobile ? 14 : 0,
   };
 
-  const headerLogoStyle = {
-    height: "50px",
-    width: "auto",
-    objectFit: "contain",
-    display: "block",
-  };
-
-  const headerTextStyle = {
-    fontSize: "13px",
-    color: "#6b7280",
-    fontWeight: 600,
-  };
-
-  const contentAreaStyle = {
-    padding: "18px 16px 18px",
-    boxSizing: "border-box",
-  };
-
-  const wrapperStyle = {
-    maxWidth: "1280px",
+  const outerWrapStyle = {
+    maxWidth: 1560,
     margin: "0 auto",
-  };
-
-  const gridStyle = {
     display: "grid",
-    gridTemplateColumns: "2.15fr 0.85fr",
-    gap: "16px",
-    alignItems: "stretch",
+    gridTemplateColumns: isMobile ? "1fr" : "minmax(0, 1fr) 340px",
+    gap: isMobile ? 0 : 18,
+    alignItems: "start",
   };
 
   const leftCardStyle = {
-    background: "#ffffff",
-    border: "1px solid #e8edf3",
-    borderRadius: "20px",
-    padding: "16px",
-    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.04)",
+    background: "#f8fafc",
+    border: "1px solid #e5e7eb",
+    borderRadius: isMobile ? 18 : 24,
+    padding: isMobile ? "14px 12px 14px" : "18px 16px 14px",
     boxSizing: "border-box",
+    width: "100%",
+    overflow: "hidden",
   };
 
   const rightCardStyle = {
-    background: "#ffffff",
-    border: "1px solid #e8edf3",
-    borderRadius: "20px",
-    padding: "16px",
-    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.04)",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    height: "100%",
+    background: "#f8fafc",
+    border: "1px solid #e5e7eb",
+    borderRadius: 24,
+    padding: "18px 16px 14px",
     boxSizing: "border-box",
+    minHeight: 690,
+    display: isMobile ? "none" : "flex",
+    flexDirection: "column",
+  };
+
+  const badgeStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: isMobile ? 28 : 32,
+    padding: isMobile ? "6px 12px" : "0 14px",
+    borderRadius: 999,
+    background: "#fff7ed",
+    color: "#c2410c",
+    border: "1px solid #fed7aa",
+    fontWeight: 800,
+    fontSize: isMobile ? 12 : 14,
+    marginBottom: 10,
+    lineHeight: 1.2,
+    flexWrap: "wrap",
   };
 
   const titleRowStyle = {
     display: "flex",
-    alignItems: "center",
-    gap: "8px",
+    alignItems: isMobile ? "flex-start" : "center",
+    gap: 10,
+    marginBottom: 6,
     flexWrap: "wrap",
-    marginBottom: "2px",
+    flexDirection: isMobile ? "column" : "row",
   };
 
-  const formTitleStyle = {
+  const titleStyle = {
     margin: 0,
-    fontSize: "19px",
+    fontSize: isMobile ? 18 : 24,
+    lineHeight: isMobile ? "24px" : "30px",
     fontWeight: 800,
-    color: "#1f2937",
+    color: "#0f172a",
+    letterSpacing: "-0.02em",
   };
 
-  const badgeStyle = {
-    display: "inline-block",
-    padding: "3px 9px",
-    borderRadius: "999px",
-    background: "#eef6ff",
-    color: "#2573ff",
-    fontSize: "12px",
-    fontWeight: 700,
+  const miniBadgeStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: isMobile ? 28 : 30,
+    padding: "0 14px",
+    borderRadius: 999,
+    background: "#e8f0ff",
+    color: "#2563eb",
+    fontWeight: 800,
+    fontSize: isMobile ? 12 : 14,
   };
 
-  const formDescStyle = {
-    margin: "0 0 10px 0",
-    fontSize: "13px",
-    color: "#6b7280",
+  const subtitleStyle = {
+    margin: "0 0 14px 0",
+    color: "#475569",
+    fontSize: isMobile ? 14 : 15,
+    lineHeight: isMobile ? "20px" : "22px",
   };
 
-  const twoColStyle = {
+  const gridStyle = {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "12px",
-    marginBottom: "10px",
+    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr",
+    gap: isMobile ? "10px" : "10px 12px",
   };
 
-  const oneColStyle = {
-    marginBottom: "10px",
+  const fieldWrapStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
+    minWidth: 0,
   };
 
   const labelStyle = {
-    display: "block",
-    marginBottom: "4px",
-    fontSize: "13px",
-    fontWeight: 700,
-    color: "#374151",
+    fontSize: isMobile ? 13 : 14,
+    fontWeight: 800,
+    color: "#0f172a",
+    lineHeight: "18px",
+    margin: 0,
   };
 
   const inputStyle = {
     width: "100%",
-    height: "42px",
-    borderRadius: "12px",
-    border: "1px solid #d6dee8",
+    height: isMobile ? 46 : 44,
+    borderRadius: 12,
+    border: "1px solid #cbd5e1",
     background: "#ffffff",
-    color: "#111827",
-    fontSize: "14px",
-    padding: "0 12px",
+    color: "#0f172a",
+    padding: "0 14px",
+    fontSize: 14,
     outline: "none",
     boxSizing: "border-box",
     boxShadow: "none",
@@ -201,331 +249,259 @@ Hasar Durumu: ${form.hasar}${fileNote}`;
 
   const fileInputStyle = {
     width: "100%",
-    borderRadius: "12px",
-    border: "1px solid #d6dee8",
+    borderRadius: 12,
+    border: "1px solid #cbd5e1",
     background: "#ffffff",
-    color: "#111827",
-    fontSize: "13px",
-    padding: "8px 10px",
+    color: "#0f172a",
+    fontSize: 14,
+    padding: "10px 12px",
     outline: "none",
     boxSizing: "border-box",
     boxShadow: "none",
   };
 
+  const textAreaStyle = {
+    width: "100%",
+    minHeight: isMobile ? 96 : 100,
+    borderRadius: 12,
+    border: "1px solid #cbd5e1",
+    background: "#ffffff",
+    color: "#0f172a",
+    padding: "12px 14px",
+    fontSize: 14,
+    outline: "none",
+    boxSizing: "border-box",
+    boxShadow: "none",
+    resize: "vertical",
+    fontFamily: "Inter, Arial, sans-serif",
+  };
+
   const noteStyle = {
     margin: "6px 0 0 0",
-    fontSize: "11px",
-    lineHeight: 1.35,
-    color: "#6b7280",
+    fontSize: 12,
+    lineHeight: 1.45,
+    color: "#64748b",
   };
 
   const fileListStyle = {
-    marginTop: "6px",
-    padding: "8px 10px",
-    borderRadius: "10px",
+    marginTop: 8,
+    padding: "10px 12px",
+    borderRadius: 12,
     background: "#f8fafc",
-    border: "1px solid #e7edf5",
-    fontSize: "12px",
-    color: "#374151",
+    border: "1px solid #e5e7eb",
+    fontSize: 12,
+    color: "#334155",
   };
 
-  const submitButtonStyle = {
+  const buttonStyle = {
     width: "100%",
-    height: "46px",
-    marginTop: "6px",
+    height: isMobile ? 50 : 48,
+    marginTop: 16,
     border: "none",
-    borderRadius: "14px",
-    background: "linear-gradient(90deg, #101828 0%, #15294b 100%)",
+    borderRadius: 14,
+    background: "linear-gradient(90deg, #0b1533 0%, #08122b 100%)",
     color: "#ffffff",
-    fontSize: "15px",
+    fontSize: isMobile ? 16 : 18,
     fontWeight: 800,
     cursor: "pointer",
+    boxShadow: "0 3px 0 rgba(0,0,0,0.12)",
   };
 
-  const expertTitleStyle = {
+  const sideTitleStyle = {
     margin: 0,
-    fontSize: "16px",
+    fontSize: 20,
+    lineHeight: "26px",
     fontWeight: 800,
-    color: "#1f2937",
+    color: "#0f172a",
   };
 
-  const expertDescStyle = {
-    margin: "4px 0 10px 0",
-    fontSize: "13px",
-    color: "#6b7280",
-  };
-
-  const rightTopStyle = {
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
+  const sideTextStyle = {
+    margin: "6px 0 14px 0",
+    fontSize: 15,
+    lineHeight: "22px",
+    color: "#475569",
   };
 
   const avatarBoxStyle = {
-    background: "#f8fafc",
-    border: "1px solid #edf2f7",
-    borderRadius: "18px",
     flex: 1,
-    minHeight: "0",
+    borderRadius: 18,
+    background: "#f3f4f6",
+    border: "1px solid #e5e7eb",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "6px",
+    padding: 16,
+    minHeight: 400,
     overflow: "hidden",
   };
 
   const avatarStyle = {
-    width: "100%",
-    maxWidth: "255px",
-    maxHeight: "390px",
-    height: "auto",
+    maxWidth: "100%",
+    maxHeight: 360,
     objectFit: "contain",
     display: "block",
   };
 
   const whatsappButtonStyle = {
     width: "100%",
-    height: "46px",
-    marginTop: "12px",
+    height: 48,
+    marginTop: 16,
     border: "none",
-    borderRadius: "14px",
-    background: "#57c84d",
+    borderRadius: 14,
+    background: "#22c55e",
     color: "#ffffff",
-    fontSize: "15px",
+    fontSize: 18,
     fontWeight: 800,
     cursor: "pointer",
+    boxShadow: "0 3px 0 rgba(0,0,0,0.10)",
   };
+
+  const renderInput = (name, label, placeholder, type = "text") => (
+    <div style={fieldWrapStyle}>
+      <label htmlFor={name} style={labelStyle}>
+        {label}
+      </label>
+      <input
+        id={name}
+        type={type}
+        name={name}
+        value={form[name]}
+        onChange={handleChange}
+        style={inputStyle}
+        placeholder={placeholder}
+      />
+    </div>
+  );
 
   return (
     <div style={pageStyle}>
-      <div style={headerStyle}>
-        <img
-          src="/logo.png"
-          alt="Prof Sigorta"
-          style={headerLogoStyle}
-        />
+      <div style={topBarStyle}>
+        <div>
+          <img
+            src="/logo.png"
+            alt="Prof Sigorta"
+            style={{
+              height: isMobile ? 34 : 44,
+              width: "auto",
+              objectFit: "contain",
+            }}
+          />
+        </div>
 
-        <span style={headerTextStyle}>Doğru Teklif , Doğru Fiyat</span>
+        {!isMobile && (
+          <div
+            style={{
+              color: "#64748b",
+              fontSize: 14,
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+            }}
+          >
+            Doğru Teklif , Doğru Fiyat
+          </div>
+        )}
       </div>
 
-      <div style={contentAreaStyle}>
-        <div style={wrapperStyle}>
-          <div style={gridStyle}>
-            <div style={leftCardStyle}>
-              <div style={titleRowStyle}>
-                <h2 style={formTitleStyle}>Kasko Sigortası</h2>
-                <span style={badgeStyle}>Hızlı Teklif</span>
-              </div>
+      <div style={outerWrapStyle}>
+        <div style={leftCardStyle}>
+          <div style={badgeStyle}>🚙 Araç kasko teklif formu</div>
 
-              <p style={formDescStyle}>
-                Bilgilerinizi girin, size en uygun teklifi hızlıca hazırlayalım.
+          <div style={titleRowStyle}>
+            <h1 style={titleStyle}>Kasko Sigortası</h1>
+            <span style={miniBadgeStyle}>Hızlı Teklif</span>
+          </div>
+
+          <p style={subtitleStyle}>
+            Bilgilerinizi girin, size en uygun kasko teklifini hızlıca hazırlayalım.
+          </p>
+
+          <div style={gridStyle}>
+            {renderInput("ad", "Ad", "Ad")}
+            {renderInput("soyad", "Soyad", "Soyad")}
+            {renderInput("tc", "TC Kimlik No", "11 haneli", "text")}
+
+            {renderInput("telefon", "Telefon", "05xx xxx xx xx", "tel")}
+            {renderInput("email", "E-posta", "ornek@mail.com", "email")}
+            {renderInput("plaka", "Plaka", "34 ABC 123")}
+
+            {renderInput("ruhsat", "Ruhsat Seri No", "Ruhsat seri no")}
+            {renderInput("marka", "Araç Marka", "Volkswagen")}
+            {renderInput("model", "Araç Model", "Passat")}
+
+            {renderInput("yil", "Model Yılı", "2020", "text")}
+            {renderInput("hasar", "Hasar Durumu", "Var / Yok")}
+
+            <div style={fieldWrapStyle}>
+              <label htmlFor="fileUpload" style={labelStyle}>
+                Araç Fotoğrafları (Opsiyonel)
+              </label>
+              <input
+                id="fileUpload"
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleFileChange}
+                style={fileInputStyle}
+              />
+              <p style={noteStyle}>
+                Ön, arka, sağ ve sol fotoğraf yüklenebilir.
               </p>
 
-              <div style={twoColStyle}>
-                <div>
-                  <label style={labelStyle}>Ad</label>
-                  <input
-                    type="text"
-                    name="ad"
-                    value={form.ad}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="Ad"
-                  />
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Soyad</label>
-                  <input
-                    type="text"
-                    name="soyad"
-                    value={form.soyad}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="Soyad"
-                  />
-                </div>
-              </div>
-
-              <div style={oneColStyle}>
-                <label style={labelStyle}>TC Kimlik No</label>
-                <input
-                  type="text"
-                  name="tc"
-                  value={form.tc}
-                  onChange={handleChange}
-                  style={inputStyle}
-                  placeholder="11 haneli"
-                  maxLength={11}
-                />
-              </div>
-
-              <div style={twoColStyle}>
-                <div>
-                  <label style={labelStyle}>Telefon</label>
-                  <input
-                    type="text"
-                    name="telefon"
-                    value={form.telefon}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="05xx xxx xx xx"
-                  />
-                </div>
-
-                <div>
-                  <label style={labelStyle}>E-posta</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="ornek@mail.com"
-                  />
-                </div>
-              </div>
-
-              <div style={twoColStyle}>
-                <div>
-                  <label style={labelStyle}>Plaka</label>
-                  <input
-                    type="text"
-                    name="plaka"
-                    value={form.plaka}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="00 ABC 123"
-                  />
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Ruhsat Seri No</label>
-                  <input
-                    type="text"
-                    name="ruhsat"
-                    value={form.ruhsat}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="Ruhsat seri no"
-                  />
-                </div>
-              </div>
-
-              <div style={twoColStyle}>
-                <div>
-                  <label style={labelStyle}>Araç Marka</label>
-                  <input
-                    type="text"
-                    name="marka"
-                    value={form.marka}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="Volkswagen"
-                  />
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Araç Model</label>
-                  <input
-                    type="text"
-                    name="model"
-                    value={form.model}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="Passat"
-                  />
-                </div>
-              </div>
-
-              <div style={twoColStyle}>
-                <div>
-                  <label style={labelStyle}>Model Yılı</label>
-                  <input
-                    type="text"
-                    name="yil"
-                    value={form.yil}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="2020"
-                  />
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Hasar Durumu</label>
-                  <input
-                    type="text"
-                    name="hasar"
-                    value={form.hasar}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    placeholder="Var / Yok"
-                  />
-                </div>
-              </div>
-
-              <div style={oneColStyle}>
-                <label style={labelStyle}>Araç Fotoğrafları (Opsiyonel)</label>
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  style={fileInputStyle}
-                />
-
-                <p style={noteStyle}>
-                  Ön, arka, sağ ve sol fotoğraf yüklenebilir.
-                </p>
-
-                {files.length > 0 && (
-                  <div style={fileListStyle}>
-                    <strong>Seçilenler:</strong>
-                    <div style={{ marginTop: "4px" }}>
-                      {files.map((file, index) => (
-                        <div key={'${file.name}-${index}'}>
-                          {index + 1}. {file.name}
-                        </div>
-                      ))}
-                    </div>
+              {files.length > 0 && (
+                <div style={fileListStyle}>
+                  <strong>Seçilenler:</strong>
+                  <div style={{ marginTop: 4 }}>
+                    {files.map((file, index) => (
+                      <div key={`${file.name}-${index}`}>
+                        {index + 1}. {file.name}
+                      </div>
+                    ))}
                   </div>
-                )}
-              </div>
-
-              <button
-                type="button"
-                onClick={handleSubmit}
-                style={submitButtonStyle}
-              >
-                Hızlı Teklif Al
-              </button>
+                </div>
+              )}
             </div>
 
-            <div style={rightCardStyle}>
-              <div style={rightTopStyle}>
-                <h3 style={expertTitleStyle}>Prof Sigorta Uzmanı</h3>
-                <p style={expertDescStyle}>
-                  Size en uygun poliçeyi hazırlayalım.
-                </p>
-
-                <div style={avatarBoxStyle}>
-                  <img
-                    src="/avatar.png"
-                    alt="Prof Sigorta Uzmanı"
-                    style={avatarStyle}
-                  />
-                </div>
+            <div style={isMobile ? { gridColumn: "auto" } : { gridColumn: "1 / -1" }}>
+              <div style={fieldWrapStyle}>
+                <label htmlFor="ekNot" style={labelStyle}>
+                  Ek Not
+                </label>
+                <textarea
+                  id="ekNot"
+                  name="ekNot"
+                  value={form.ekNot}
+                  onChange={handleChange}
+                  placeholder="Özel durum / ek bilgi"
+                  style={textAreaStyle}
+                />
               </div>
-
-              <button
-                type="button"
-                style={whatsappButtonStyle}
-                onClick={openWhatsappDirect}
-              >
-                WhatsApp’tan Yaz
-              </button>
             </div>
           </div>
+
+          <button type="button" onClick={handleSubmit} style={buttonStyle}>
+            Hızlı Teklif Al
+          </button>
+        </div>
+
+        <div style={rightCardStyle}>
+          <h2 style={sideTitleStyle}>Prof Sigorta Uzmanı</h2>
+          <p style={sideTextStyle}>Size en uygun poliçeyi hazırlayalım.</p>
+
+          <div style={avatarBoxStyle}>
+            <img
+              src="/avatar.png"
+              alt="Prof Sigorta Uzmanı"
+              style={avatarStyle}
+            />
+          </div>
+
+          <button
+            type="button"
+            style={whatsappButtonStyle}
+            onClick={openWhatsappDirect}
+          >
+            WhatsApp&apos;tan Yaz
+          </button>
         </div>
       </div>
     </div>

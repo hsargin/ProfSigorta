@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Page() {
+  const [isMobile, setIsMobile] = useState(false);
+
   const [form, setForm] = useState({
     ad: "",
     soyad: "",
@@ -11,377 +13,410 @@ export default function Page() {
     kilo: "",
     telefon: "",
     email: "",
+    aileEkBilgi: "",
+    ekNot: "",
   });
 
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 900);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    let newValue = value;
+
+    if (name === "tc") {
+      newValue = value.replace(/\D/g, "").slice(0, 11);
+    }
+
+    if (name === "boy") {
+      newValue = value.replace(/\D/g, "").slice(0, 3);
+    }
+
+    if (name === "kilo") {
+      newValue = value.replace(/\D/g, "").slice(0, 3);
+    }
+
+    if (name === "telefon") {
+      newValue = value.replace(/[^\d\s()+-]/g, "").slice(0, 18);
+    }
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: newValue,
+    }));
   }
 
   function sendWhatsapp() {
-    const mesaj = `Tamamlayıcı Sağlık Sigortası Teklif Talebi
+    const mesaj = `TAMAMLAYICI SAĞLIK SİGORTASI TEKLİF TALEBİ
 
 Ad: ${form.ad}
 Soyad: ${form.soyad}
-TC: ${form.tc}
+TC Kimlik No: ${form.tc}
 Boy: ${form.boy}
 Kilo: ${form.kilo}
 Telefon: ${form.telefon}
 E-posta: ${form.email}
 
+Aile İçin Ek Bilgi: ${form.aileEkBilgi}
+Ek Not: ${form.ekNot}
+
 Kaynak: Web Form`;
 
-    const url = "https://wa.me/905301096161?text=" + encodeURIComponent(mesaj);
+    const url = `https://wa.me/905301096161?text=${encodeURIComponent(mesaj)}`;
     window.open(url, "_blank");
   }
 
-  // ✅ KISALTTIK: padding + marginBottom azaltıldı
-  const inputStyle = {
+  const pageStyle = {
+    minHeight: "100vh",
+    background: "#f3f4f6",
+    padding: isMobile ? "10px 10px 18px" : "18px 18px 28px",
+    fontFamily: "Inter, Arial, sans-serif",
+  };
+
+  const topBarStyle = {
     width: "100%",
-    padding: "10px 12px",       // 14 -> 10 (kısalır)
-    border: "1px solid #d7dde5",
-    borderRadius: "10px",
-    marginBottom: "14px",        // 12 -> 8 (kısalır)
     background: "#ffffff",
-    color: "#1f2a37",
-    outline: "none",
-    fontSize: "14px",
-    boxShadow: "0 1px 0 rgba(16,24,40,0.02)",
+    borderBottom: "1px solid #e5e7eb",
+    padding: isMobile ? "10px 12px" : "14px 20px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    boxSizing: "border-box",
+    marginBottom: isMobile ? 10 : 16,
+    borderRadius: isMobile ? 14 : 0,
+  };
+
+  const outerWrapStyle = {
+    maxWidth: 1560,
+    margin: "0 auto",
+    display: "grid",
+    gridTemplateColumns: isMobile ? "1fr" : "minmax(0, 1fr) 340px",
+    gap: isMobile ? 0 : 18,
+    alignItems: "start",
+  };
+
+  const leftCardStyle = {
+    background: "#f8fafc",
+    border: "1px solid #e5e7eb",
+    borderRadius: isMobile ? 18 : 24,
+    padding: isMobile ? "14px 12px 14px" : "18px 16px 14px",
+    boxSizing: "border-box",
+    width: "100%",
+    overflow: "hidden",
+  };
+
+  const rightCardStyle = {
+    background: "#f8fafc",
+    border: "1px solid #e5e7eb",
+    borderRadius: 24,
+    padding: "18px 16px 14px",
+    boxSizing: "border-box",
+    minHeight: 690,
+    display: isMobile ? "none" : "flex",
+    flexDirection: "column",
+  };
+
+  const badgeStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: isMobile ? 28 : 32,
+    padding: isMobile ? "6px 12px" : "0 14px",
+    borderRadius: 999,
+    background: "#fff7ed",
+    color: "#c2410c",
+    border: "1px solid #fed7aa",
+    fontWeight: 800,
+    fontSize: isMobile ? 12 : 14,
+    marginBottom: 10,
+    lineHeight: 1.2,
+    flexWrap: "wrap",
+  };
+
+  const titleRowStyle = {
+    display: "flex",
+    alignItems: isMobile ? "flex-start" : "center",
+    gap: 10,
+    marginBottom: 6,
+    flexWrap: "wrap",
+    flexDirection: isMobile ? "column" : "row",
+  };
+
+  const titleStyle = {
+    margin: 0,
+    fontSize: isMobile ? 18 : 24,
+    lineHeight: isMobile ? "24px" : "30px",
+    fontWeight: 800,
+    color: "#0f172a",
+    letterSpacing: "-0.02em",
+  };
+
+  const miniBadgeStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: isMobile ? 28 : 30,
+    padding: "0 14px",
+    borderRadius: 999,
+    background: "#e8f0ff",
+    color: "#2563eb",
+    fontWeight: 800,
+    fontSize: isMobile ? 12 : 14,
+  };
+
+  const subtitleStyle = {
+    margin: "0 0 14px 0",
+    color: "#475569",
+    fontSize: isMobile ? 14 : 15,
+    lineHeight: isMobile ? "20px" : "22px",
+  };
+
+  const gridStyle = {
+    display: "grid",
+    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr",
+    gap: isMobile ? "10px" : "10px 12px",
+  };
+
+  const fieldWrapStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
+    minWidth: 0,
   };
 
   const labelStyle = {
-    fontSize: "13px",
-    fontWeight: "600",
-    color: "#334155",
-    marginBottom: "5px",        // 6 -> 5 (ufak kısalma)
-    display: "block",
+    fontSize: isMobile ? 13 : 14,
+    fontWeight: 800,
+    color: "#0f172a",
+    lineHeight: "18px",
+    margin: 0,
   };
 
+  const inputStyle = {
+    width: "100%",
+    height: isMobile ? 46 : 44,
+    borderRadius: 12,
+    border: "1px solid #cbd5e1",
+    background: "#ffffff",
+    color: "#0f172a",
+    padding: "0 14px",
+    fontSize: 14,
+    outline: "none",
+    boxSizing: "border-box",
+    boxShadow: "none",
+    appearance: "none",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+  };
+
+  const textAreaStyle = {
+    width: "100%",
+    minHeight: isMobile ? 96 : 100,
+    borderRadius: 12,
+    border: "1px solid #cbd5e1",
+    background: "#ffffff",
+    color: "#0f172a",
+    padding: "12px 14px",
+    fontSize: 14,
+    outline: "none",
+    boxSizing: "border-box",
+    boxShadow: "none",
+    resize: "vertical",
+    fontFamily: "Inter, Arial, sans-serif",
+  };
+
+  const buttonStyle = {
+    width: "100%",
+    height: isMobile ? 50 : 48,
+    marginTop: 16,
+    border: "none",
+    borderRadius: 14,
+    background: "linear-gradient(90deg, #0b1533 0%, #08122b 100%)",
+    color: "#ffffff",
+    fontSize: isMobile ? 16 : 18,
+    fontWeight: 800,
+    cursor: "pointer",
+    boxShadow: "0 3px 0 rgba(0,0,0,0.12)",
+  };
+
+  const sideTitleStyle = {
+    margin: 0,
+    fontSize: 20,
+    lineHeight: "26px",
+    fontWeight: 800,
+    color: "#0f172a",
+  };
+
+  const sideTextStyle = {
+    margin: "6px 0 14px 0",
+    fontSize: 15,
+    lineHeight: "22px",
+    color: "#475569",
+  };
+
+  const avatarBoxStyle = {
+    flex: 1,
+    borderRadius: 18,
+    background: "#f3f4f6",
+    border: "1px solid #e5e7eb",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+    minHeight: 400,
+    overflow: "hidden",
+  };
+
+  const whatsappButtonStyle = {
+    width: "100%",
+    height: 48,
+    marginTop: 16,
+    border: "none",
+    borderRadius: 14,
+    background: "#22c55e",
+    color: "#ffffff",
+    fontSize: 18,
+    fontWeight: 800,
+    cursor: "pointer",
+    boxShadow: "0 3px 0 rgba(0,0,0,0.10)",
+  };
+
+  const renderInput = (name, label, placeholder, type = "text") => (
+    <div style={fieldWrapStyle}>
+      <label htmlFor={name} style={labelStyle}>
+        {label}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        value={form[name]}
+        onChange={handleChange}
+        placeholder={placeholder}
+        style={inputStyle}
+      />
+    </div>
+  );
+
   return (
-    <div
-      style={{
-        background: "#f4f6f9",
-        minHeight: "100vh",
-        fontFamily:
-          'system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"',
-        paddingBottom: "60px", // ✅ sayfanın altında ferah boşluk
-      }}
-    >
-      {/* HEADER */}
-      <div
-        style={{
-          background: "#ffffff",
-          borderBottom: "1px solid #e9edf3",
-          padding: "14px 32px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+    <div style={pageStyle}>
+      <div style={topBarStyle}>
+        <div>
           <img
             src="/logo.png"
             alt="Prof Sigorta"
-            style={{ height: "54px", width: "auto", display: "block" }}
+            style={{
+              height: isMobile ? 34 : 44,
+              width: "auto",
+              objectFit: "contain",
+            }}
           />
-          <div style={{ lineHeight: 1.1 }}>
-            <div
-              style={{
-                fontSize: "14px",
-                fontWeight: "800",
-                color: "#0f172a",
-                letterSpacing: "0.3px",
-              }}
-            ></div>
-            <div style={{ fontSize: "12px", color: "#64748b" }}></div>
-          </div>
         </div>
 
-        <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: "12px", color: "#64748b" }}>
-            Doğru Teklif , Doğru Fiyat
-          </div>
+        {!isMobile && (
           <div
             style={{
-              fontWeight: "800",
-              color: "#0f172a",
-              fontSize: "15px",
-            }}
-          ></div>
-        </div>
-      </div>
-
-      {/* BODY */}
-      <div
-        style={{
-          maxWidth: "1120px",
-          margin: "34px auto",
-          padding: "0 14px",
-          display: "flex",
-          gap: "22px",
-          alignItems: "flex-start",
-        }}
-      >
-        {/* FORM CARD */}
-        <div
-          style={{
-            flex: 1,
-            background: "#ffffff",
-            padding: "20px", // ✅ 28 -> 20 (kart kısalır)
-            borderRadius: "14px",
-            boxShadow: "0 10px 30px rgba(15,23,42,0.06)",
-            border: "1px solid #eef2f7",
-          }}
-        >
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <h2
-              style={{
-                margin: 0,
-                color: "#0f172a",
-                fontWeight: "900",
-                fontSize: "20px", // ✅ 22 -> 20
-              }}
-            >
-              Tamamlayıcı Sağlık Sigortası
-            </h2>
-
-            <span
-              style={{
-                fontSize: "12px",
-                padding: "5px 9px", // ✅ biraz küçülttük
-                borderRadius: "999px",
-                background: "#eff6ff",
-                color: "#1d4ed8",
-                fontWeight: "700",
-              }}
-            >
-              Hızlı Teklif
-            </span>
-          </div>
-
-          <p
-            style={{
-              marginTop: "6px",     // ✅ 8 -> 6
-              marginBottom: "12px", // ✅ 18 -> 12
-              color: "#475569",
+              color: "#64748b",
+              fontSize: 14,
+              fontWeight: 700,
+              whiteSpace: "nowrap",
             }}
           >
+            Doğru Teklif , Doğru Fiyat
+          </div>
+        )}
+      </div>
+
+      <div style={outerWrapStyle}>
+        <div style={leftCardStyle}>
+          <div style={badgeStyle}>🩺 Sağlık teklif formu</div>
+
+          <div style={titleRowStyle}>
+            <h1 style={titleStyle}>Tamamlayıcı Sağlık Sigortası</h1>
+            <span style={miniBadgeStyle}>Hızlı Teklif</span>
+          </div>
+
+          <p style={subtitleStyle}>
             Bilgilerinizi girin, size en uygun teklifi hızlıca hazırlayalım.
           </p>
 
-          {/* AD / SOYAD */}
-          <div style={{ display: "flex", gap: "12px" }}>
-            <div style={{ flex: 1 }}>
-              <label style={labelStyle}>Ad</label>
-              <input
-                name="ad"
-                value={form.ad}
-                onChange={handleChange}
-                style={inputStyle}
-              />
-            </div>
-            <div style={{ flex: 1 }}>
-              <label style={labelStyle}>Soyad</label>
-              <input
-                name="soyad"
-                value={form.soyad}
-                onChange={handleChange}
-                style={inputStyle}
-              />
-            </div>
-          </div>
+          <div style={gridStyle}>
+            {renderInput("ad", "Ad", "Ad")}
+            {renderInput("soyad", "Soyad", "Soyad")}
+            {renderInput("tc", "TC Kimlik No", "11 haneli", "text")}
 
-          {/* TC */}
-          <div>
-            <label style={labelStyle}>TC Kimlik No</label>
-            <input
-              name="tc"
-              value={form.tc}
-              onChange={handleChange}
-              placeholder="11 haneli"
-              style={inputStyle}
-              inputMode="numeric"
-            />
-          </div>
+            {renderInput("boy", "Boy (cm)", "Örn: 179", "text")}
+            {renderInput("kilo", "Kilo (kg)", "Örn: 89", "text")}
+            {renderInput("telefon", "Telefon", "05xx xxx xx xx", "tel")}
 
-          {/* BOY / KILO */}
-          <div style={{ display: "flex", gap: "12px" }}>
-            <div style={{ flex: 1 }}>
-              <label style={labelStyle}>Boy (cm)</label>
-              <input
-                name="boy"
-                value={form.boy}
-                onChange={handleChange}
-                placeholder="Örn: 179"
-                style={inputStyle}
-                inputMode="numeric"
-              />
+            {renderInput("email", "E-posta", "ornek@mail.com", "email")}
+
+            <div style={isMobile ? { gridColumn: "auto" } : { gridColumn: "2 / -1" }}>
+              <div style={fieldWrapStyle}>
+                <label htmlFor="aileEkBilgi" style={labelStyle}>
+                  Aile İçin Ek Bilgi
+                </label>
+                <textarea
+                  id="aileEkBilgi"
+                  name="aileEkBilgi"
+                  value={form.aileEkBilgi}
+                  onChange={handleChange}
+                  placeholder="Aile fertleri için TC, boy, kilo gibi bilgileri buraya yazabilirsiniz."
+                  style={textAreaStyle}
+                />
+              </div>
             </div>
-            <div style={{ flex: 1 }}>
-              <label style={labelStyle}>Kilo (kg)</label>
-              <input
-                name="kilo"
-                value={form.kilo}
-                onChange={handleChange}
-                placeholder="Örn: 89"
-                style={inputStyle}
-                inputMode="numeric"
-              />
+
+            <div style={isMobile ? { gridColumn: "auto" } : { gridColumn: "1 / -1" }}>
+              <div style={fieldWrapStyle}>
+                <label htmlFor="ekNot" style={labelStyle}>
+                  Ek Not
+                </label>
+                <textarea
+                  id="ekNot"
+                  name="ekNot"
+                  value={form.ekNot}
+                  onChange={handleChange}
+                  placeholder="Özel durum / ek bilgi"
+                  style={textAreaStyle}
+                />
+              </div>
             </div>
           </div>
 
-          {/* TELEFON */}
-          <div>
-            <label style={labelStyle}>Telefon</label>
-            <input
-              name="telefon"
-              value={form.telefon}
-              onChange={handleChange}
-              placeholder="Örn: 05xx xxx xx xx"
-              style={inputStyle}
-              inputMode="tel"
-            />
-          </div>
-
-          {/* EMAIL */}
-          <div>
-            <label style={labelStyle}>E-posta</label>
-            <input
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="Örn: ornek@mail.com"
-              style={inputStyle}
-              inputMode="email"
-            />
-          </div>
-
-          {/* BUTTON */}
-          <button
-            onClick={sendWhatsapp}
-            style={{
-              marginTop: "6px",
-              width: "100%",
-              background: "#0f172a",
-              color: "#fff",
-              padding: "12px 16px", // ✅ 14 -> 12 (kısalır)
-              border: "none",
-              borderRadius: "12px",
-              fontSize: "15px",
-              fontWeight: "800",
-              cursor: "pointer",
-              boxShadow: "0 10px 18px rgba(15,23,42,0.18)",
-            }}
-          >
+          <button type="button" onClick={sendWhatsapp} style={buttonStyle}>
             Hızlı Teklif Al
           </button>
-
-          <div
-            style={{
-              marginTop: "8px", // ✅ 10 -> 8
-              display: "flex",
-              justifyContent: "space-between",
-              fontSize: "12px",
-              color: "#64748b",
-            }}
-          ></div>
-
-          <p
-            style={{
-              textAlign: "center",
-              marginTop: "10px", // ✅ 14 -> 10
-              fontSize: "12px",
-              color: "#94a3b8",
-            }}
-          ></p>
         </div>
 
-        {/* AVATAR CARD */}
-        <div
-          style={{
-            width: "360px",
-            background: "#ffffff",
-            borderRadius: "14px",
-            padding: "22px",
-            textAlign: "center",
-            boxShadow: "0 10px 30px rgba(15,23,42,0.06)",
-            border: "1px solid #eef2f7",
-          }}
-        >
-          <div style={{ textAlign: "left" }}>
-            <div
-              style={{
-                fontSize: "16px",
-                fontWeight: "900",
-                color: "#0f172a",
-              }}
-            >
-              Prof Sigorta Uzmanı
-            </div>
-            <div
-              style={{
-                fontSize: "13px",
-                color: "#475569",
-                marginTop: "6px",
-              }}
-            >
-              Size en uygun poliçeyi hazırlayalım.
-            </div>
+        <div style={rightCardStyle}>
+          <h2 style={sideTitleStyle}>Prof Sigorta Uzmanı</h2>
+          <p style={sideTextStyle}>Size en uygun poliçeyi hazırlayalım.</p>
 
-            <div
-              style={{
-                marginTop: "12px",
-                fontSize: "12px",
-                color: "#64748b",
-                lineHeight: 1.7,
-              }}
-            ></div>
-          </div>
-
-          <div
-            style={{
-              marginTop: "14px",
-              background: "#f8fafc",
-              border: "1px solid #eef2f7",
-              borderRadius: "14px",
-              padding: "16px",
-            }}
-          >
+          <div style={avatarBoxStyle}>
             <img
               src="/avatar.png"
               alt="Uzman"
               style={{
-                width: "230px",
-                height: "auto",
+                maxWidth: "100%",
+                maxHeight: 360,
+                objectFit: "contain",
                 display: "block",
-                margin: "0 auto",
               }}
             />
           </div>
 
           <button
+            type="button"
             onClick={() => window.open("https://wa.me/905301096161", "_blank")}
-            style={{
-              marginTop: "16px",
-              width: "100%",
-              background: "#22c55e",
-              color: "#fff",
-              padding: "12px 14px",
-              border: "none",
-              borderRadius: "12px",
-              fontSize: "14px",
-              fontWeight: "800",
-              cursor: "pointer",
-            }}
+            style={whatsappButtonStyle}
           >
-            WhatsApp’tan Yaz
+            WhatsApp&apos;tan Yaz
           </button>
-
-          <div
-            style={{ marginTop: "10px", fontSize: "12px", color: "#64748b" }}
-          ></div>
         </div>
       </div>
     </div>
