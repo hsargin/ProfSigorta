@@ -6,349 +6,480 @@ export default function Home() {
       id: 1,
       title: "2.El Trafik Sigortası",
       icon: "/icons/noter.png",
-      important: true,
       slug: "2-el-trafik",
+      large: true,
     },
     {
       id: 2,
       title: "Trafik Sigortası",
       icon: "/icons/trafik.png",
-      important: true,
       slug: "trafik-sigortasi",
+      large: true,
     },
     {
       id: 3,
       title: "Kasko Sigortası",
       icon: "/icons/kasko.png",
-      important: true,
       slug: "kasko-sigortasi",
+      large: true,
     },
     {
       id: 4,
       title: "Tamamlayıcı Sağlık",
       icon: "/icons/tss.png",
-      important: true,
       slug: "tamamlayici-saglik",
+      large: true,
     },
     {
       id: 5,
       title: "Seyahat Sağlık",
       icon: "/icons/seyahat.png",
-      important: false,
       slug: "seyahat-saglik",
+      large: false,
     },
     {
       id: 6,
       title: "Yeşil Kart",
       icon: "/icons/yesil.png",
-      important: false,
       slug: "yesil-kart",
+      large: false,
     },
     {
       id: 7,
       title: "DASK",
       icon: "/icons/dask.png",
-      important: false,
       slug: "dask",
+      large: false,
     },
     {
       id: 8,
       title: "İşyeri Sigortası",
       icon: "/icons/isyeri.png",
-      important: false,
       slug: "isyeri-sigortasi",
+      large: false,
     },
     {
       id: 9,
       title: "Özel Sağlık",
       icon: "/icons/ozel.png",
-      important: false,
       slug: "ozel-saglik",
+      large: false,
     },
   ];
 
-  const cardBaseStyle = {
-    borderRadius: "18px",
-    backgroundColor: "#fcfcfc",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.04)",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    cursor: "pointer",
-    transition: "transform 0.15s ease, box-shadow 0.15s ease",
-  };
-
-  const headerHeight = 76;
+  const topProducts = products.slice(0, 4);
+  const bottomProducts = products.slice(4);
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(180deg, #f0f2f5 0%, #e6ebee 40%, #dde3e8 100%)",
-        fontFamily:
-          "-apple-system, BlinkMacSystemFont, system-ui, Segoe UI, sans-serif",
-        color: "#333",
-      }}
-    >
-      <header
-        style={{
-          height: headerHeight,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 48px",
-          backgroundColor: "#ffffff",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+    <main className="page">
+      <header className="header">
+        <div className="logoWrap">
           <img
             src="/logo-profsigorta-v2.png"
             alt="Prof Sigorta"
-            style={{ height: 54 }}
+            className="logo"
           />
         </div>
 
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 28,
-            fontSize: 15,
-            fontWeight: 500,
-            color: "#555",
-          }}
-        >
-          <span style={{ cursor: "pointer" }}>Ürünlerimiz</span>
-          <span style={{ cursor: "pointer" }}>Kampanyalar</span>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              cursor: "pointer",
-            }}
-          >
-            <span>Poliçe İşlemleri</span>
-            <span style={{ fontSize: 10 }}>?</span>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              cursor: "pointer",
-            }}
-          >
-            <span>Poliçe İptal İşlemleri</span>
-            <span style={{ fontSize: 10 }}>?</span>
-          </div>
+        <nav className="desktopNav">
+          <span>Ürünlerimiz</span>
+          <span>Kampanyalar</span>
+          <span>Poliçe İşlemleri</span>
+          <span>Poliçe İptal İşlemleri</span>
         </nav>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div className="desktopActions">
           <button
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "9px 20px",
-              borderRadius: 999,
-              border: "1.2px solid #25D366",
-              backgroundColor: "#eafff1",
-              fontSize: 14,
-              fontWeight: 700,
-              color: "#128c7e",
-              cursor: "pointer",
-            }}
+            type="button"
+            className="waBtn"
+            onClick={() => window.open("https://wa.me/905301096161", "_blank")}
           >
-            <img
-              src="/icons/wh.svg"
-              alt="WhatsApp"
-              style={{
-                width: 18,
-                height: 18,
-                display: "inline-block",
-              }}
-            />
+            <img src="/icons/wh.svg" alt="WhatsApp" className="waIcon" />
             WhatsApp Destek
           </button>
 
-          <button
-            style={{
-              padding: "9px 22px",
-              borderRadius: 999,
-              border: "1.2px solid #ff7f32",
-              backgroundColor: "#fff8f3",
-              fontSize: 14,
-              fontWeight: 700,
-              color: "#d96615",
-              cursor: "pointer",
-            }}
-          >
+          <button type="button" className="loginBtn">
             Giriş Yap / Üye Ol
           </button>
         </div>
+
+        <button type="button" className="mobileMenuBtn">
+          ☰
+        </button>
       </header>
 
-      <div
-        style={{
-          maxWidth: 1180,
-          margin: "32px auto 56px",
-          padding: "0 40px",
-          display: "flex",
-          alignItems: "center",
-          gap: 36,
-        }}
-      >
-        <div
-          style={{
-            flex: "1 1 auto",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: 34,
-              fontWeight: 700,
-              marginTop: 0,
-              marginBottom: 26,
-              color: "#444",
-              textAlign: "center",
-            }}
-          >
-            Doğru Poliçe, Doğru Fiyat
-          </h1>
+      <section className="hero">
+        <div className="leftArea">
+          <h1 className="title">Doğru Poliçe, Doğru Fiyat</h1>
 
-          <div
-            style={{
-              width: 1040,
-              maxWidth: "100%",
-              margin: "0 auto 36px auto",
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 22,
-            }}
-          >
-            {products.slice(0, 4).map((p) => (
+          <div className="desktopTopGrid">
+            {topProducts.map((p) => (
               <Link
                 key={p.id}
-                href={"/police/" + p.slug}
-                style={{ textDecoration: "none", color: "inherit", flex: 1 }}
+                href={`/police/${p.slug}`}
+                className="cardLink"
               >
-                <div
-                  style={{
-                    ...cardBaseStyle,
-                    height: 138,
-                    padding: "16px 12px 12px",
-                  }}
-                >
-                  <img
-                    src={p.icon}
-                    alt={p.title}
-                    style={{
-                      width: 88,
-                      height: 88,
-                      objectFit: "contain",
-                      display: "block",
-                      margin: "0 auto 12px auto",
-                    }}
-                  />
-                  <div
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 600,
-                      whiteSpace: "nowrap",
-                      color: "#333",
-                      marginTop: 8,
-                    }}
-                  >
-                    {p.title}
+                <div className="card cardLarge">
+                  <div className="iconArea iconAreaLarge">
+                    <img src={p.icon} alt={p.title} className="iconLarge" />
                   </div>
+                  <div className="cardTitle cardTitleLarge">{p.title}</div>
                 </div>
               </Link>
             ))}
           </div>
 
-          <div
-            style={{
-              width: 1040,
-              maxWidth: "100%",
-              margin: "0 auto",
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 22,
-            }}
-          >
-            {products.slice(4, 9).map((p) => (
+          <div className="desktopBottomGrid">
+            {bottomProducts.map((p) => (
               <Link
                 key={p.id}
-                href={"/police/" + p.slug}
-                style={{ textDecoration: "none", color: "inherit", flex: 1 }}
+                href={`/police/${p.slug}`}
+                className="cardLink"
               >
-                <div
-                  style={{
-                    ...cardBaseStyle,
-                    height: 132,
-                    padding: "14px 10px 10px",
-                  }}
-                >
-                  <img
-                    src={p.icon}
-                    alt={p.title}
-                    style={{
-                      width: 66,
-                      height: 66,
-                      objectFit: "contain",
-                      marginBottom: 12,
-                    }}
-                  />
-                  <div
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      whiteSpace: "nowrap",
-                      color: "#444",
-                      marginTop: 6,
-                    }}
-                  >
-                    {p.title}
+                <div className="card cardSmall">
+                  <div className="iconArea iconAreaSmall">
+                    <img src={p.icon} alt={p.title} className="iconSmall" />
                   </div>
+                  <div className="cardTitle cardTitleSmall">{p.title}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mobileGrid">
+            {products.map((p) => (
+              <Link
+                key={p.id}
+                href={`/police/${p.slug}`}
+                className="cardLink"
+              >
+                <div className="card mobileCard">
+                  <div className="iconArea mobileIconArea">
+                    <img
+                      src={p.icon}
+                      alt={p.title}
+                      className={p.large ? "iconMobileLarge" : "iconMobileSmall"}
+                    />
+                  </div>
+                  <div className="cardTitle mobileCardTitle">{p.title}</div>
                 </div>
               </Link>
             ))}
           </div>
         </div>
 
-        <div
-          style={{
-            flex: "0 0 240px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            marginLeft: -30,
-          }}
-        >
+        <div className="avatarArea">
           <img
             src="/avatar-v3.png"
             alt="Prof Sigorta Avatar"
-            style={{
-              maxHeight: 520,
-              width: "auto",
-              display: "block",
-            }}
+            className="avatar"
           />
         </div>
-      </div>
+      </section>
+
+      <style jsx>{`
+        .page {
+          min-height: 100vh;
+          background: linear-gradient(
+            180deg,
+            #f0f2f5 0%,
+            #e6ebee 40%,
+            #dde3e8 100%
+          );
+          font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI",
+            sans-serif;
+          color: #333;
+          overflow-x: hidden;
+        }
+
+        .header {
+          height: 76px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 32px;
+          background: #fff;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+          position: sticky;
+          top: 0;
+          z-index: 20;
+        }
+
+        .logo {
+          height: 54px;
+          width: auto;
+          display: block;
+        }
+
+        .desktopNav {
+          display: flex;
+          align-items: center;
+          gap: 28px;
+          font-size: 15px;
+          font-weight: 500;
+          color: #555;
+        }
+
+        .desktopActions {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .waBtn {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 9px 20px;
+          border-radius: 999px;
+          border: 1.2px solid #25d366;
+          background: #eafff1;
+          font-size: 14px;
+          font-weight: 700;
+          color: #128c7e;
+          cursor: pointer;
+        }
+
+        .waIcon {
+          width: 18px;
+          height: 18px;
+        }
+
+        .loginBtn {
+          padding: 9px 22px;
+          border-radius: 999px;
+          border: 1.2px solid #ff7f32;
+          background: #fff8f3;
+          font-size: 14px;
+          font-weight: 700;
+          color: #d96615;
+          cursor: pointer;
+        }
+
+        .mobileMenuBtn {
+          display: none;
+          width: 52px;
+          height: 52px;
+          border: none;
+          border-radius: 16px;
+          background: #f2f2f2;
+          font-size: 28px;
+          color: #444;
+          cursor: pointer;
+        }
+
+        .hero {
+          max-width: 1180px;
+          margin: 32px auto 56px;
+          padding: 0 32px;
+          display: flex;
+          align-items: center;
+          gap: 34px;
+          box-sizing: border-box;
+        }
+
+        .leftArea {
+          flex: 1 1 auto;
+          min-width: 0;
+        }
+
+        .title {
+          font-size: 34px;
+          font-weight: 700;
+          margin: 0 0 24px;
+          color: #444;
+          text-align: center;
+        }
+
+        .desktopTopGrid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 22px;
+          margin-bottom: 26px;
+        }
+
+        .desktopBottomGrid {
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 20px;
+        }
+
+        .mobileGrid {
+          display: none;
+        }
+
+        .cardLink {
+          text-decoration: none;
+          color: inherit;
+          display: block;
+        }
+
+        .card {
+          background: #fcfcfc;
+          border-radius: 22px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+          text-align: center;
+          border: 1px solid rgba(0, 0, 0, 0.02);
+          transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .cardLarge {
+          height: 170px;
+          padding: 16px 12px 12px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .cardSmall {
+          height: 160px;
+          padding: 14px 10px 10px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .iconArea {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .iconLarge {
+          width: 96px;
+          height: 96px;
+          object-fit: contain;
+          display: block;
+        }
+
+        .iconSmall {
+          width: 70px;
+          height: 70px;
+          object-fit: contain;
+          display: block;
+        }
+
+        .cardTitle {
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          text-align: center;
+          color: #333;
+          font-weight: 600;
+        }
+
+        .cardTitleLarge {
+          min-height: 42px;
+          font-size: 15px;
+          line-height: 20px;
+          padding-bottom: 8px;
+        }
+
+        .cardTitleSmall {
+          min-height: 38px;
+          font-size: 14px;
+          line-height: 19px;
+          padding-bottom: 6px;
+          color: #444;
+        }
+
+        .avatarArea {
+          flex: 0 0 220px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
+
+        .avatar {
+          max-height: 520px;
+          width: auto;
+          display: block;
+        }
+
+        @media (max-width: 900px) {
+          .header {
+            height: auto;
+            min-height: 84px;
+            padding: 14px 16px;
+          }
+
+          .logo {
+            height: 46px;
+          }
+
+          .desktopNav,
+          .desktopActions,
+          .avatarArea,
+          .desktopTopGrid,
+          .desktopBottomGrid {
+            display: none;
+          }
+
+          .mobileMenuBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .hero {
+            max-width: 100%;
+            margin: 18px auto 28px;
+            padding: 0 14px;
+            display: block;
+          }
+
+          .title {
+            font-size: 30px;
+            line-height: 36px;
+            margin-bottom: 18px;
+          }
+
+          .mobileGrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+          }
+
+          .mobileCard {
+            min-height: 176px;
+            padding: 14px 10px 10px;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .mobileIconArea {
+            flex: 1;
+            min-height: 86px;
+          }
+
+          .iconMobileLarge {
+            width: 88px;
+            height: 88px;
+            object-fit: contain;
+            display: block;
+          }
+
+          .iconMobileSmall {
+            width: 68px;
+            height: 68px;
+            object-fit: contain;
+            display: block;
+          }
+
+          .mobileCardTitle {
+            min-height: 40px;
+            font-size: 13px;
+            line-height: 18px;
+            font-weight: 700;
+            color: #2f3b52;
+            padding-bottom: 6px;
+          }
+        }
+      `}</style>
     </main>
   );
 }
