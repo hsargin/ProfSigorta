@@ -92,11 +92,15 @@ ${fileNote}
 
 Kaynak: Web Form`;
 
-    const whatsappUrl = `https://wa.me/905301096161?text=${encodeURIComponent(
-      message
-    )}`;
+    const whatsappUrl = https://wa.me/905301096161?text=${encodeURIComponent(message)};
 
-    window.open(whatsappUrl, "_blank");
+if (typeof window !== "undefined" && window.gtag) {
+  window.gtag('event', 'conversion', {
+    send_to: 'AW-18071924771/XXXXXXX'
+  });
+}
+
+window.open(whatsappUrl, "_blank");
   }
 
   function openWhatsappDirect() {
@@ -410,10 +414,6 @@ Kaynak: Web Form`;
             <h1 style={titleStyle}>Kasko Sigortası</h1>
             <span style={miniBadgeStyle}>Hızlı Teklif</span>
           </div>
-
-          <p style={subtitleStyle}>
-            Bilgilerinizi girin, size en uygun kasko teklifini hızlıca hazırlayalım.
-          </p>
 
           <div style={gridStyle}>
             {renderInput("ad", "Ad", "Ad")}
