@@ -1,3 +1,4 @@
+// src/app/page.js
 import Link from "next/link";
 
 export default function Home() {
@@ -6,480 +7,498 @@ export default function Home() {
       id: 1,
       title: "2.El Trafik Sigortası",
       icon: "/icons/noter.png",
+      important: true,
       slug: "2-el-trafik",
-      large: true,
     },
     {
       id: 2,
       title: "Trafik Sigortası",
       icon: "/icons/trafik.png",
+      important: true,
       slug: "trafik-sigortasi",
-      large: true,
     },
     {
       id: 3,
       title: "Kasko Sigortası",
       icon: "/icons/kasko.png",
+      important: true,
       slug: "kasko-sigortasi",
-      large: true,
     },
     {
       id: 4,
       title: "Tamamlayıcı Sağlık",
       icon: "/icons/tss.png",
+      important: true,
       slug: "tamamlayici-saglik",
-      large: true,
     },
     {
       id: 5,
       title: "Seyahat Sağlık",
       icon: "/icons/seyahat.png",
+      important: false,
       slug: "seyahat-saglik",
-      large: false,
     },
     {
       id: 6,
       title: "Yeşil Kart",
       icon: "/icons/yesil.png",
+      important: false,
       slug: "yesil-kart",
-      large: false,
     },
     {
       id: 7,
       title: "DASK",
       icon: "/icons/dask.png",
+      important: false,
       slug: "dask",
-      large: false,
     },
     {
       id: 8,
       title: "İşyeri Sigortası",
       icon: "/icons/isyeri.png",
+      important: false,
       slug: "isyeri-sigortasi",
-      large: false,
     },
     {
       id: 9,
       title: "Özel Sağlık",
       icon: "/icons/ozel.png",
+      important: false,
       slug: "ozel-saglik",
-      large: false,
     },
   ];
 
-  const topProducts = products.slice(0, 4);
-  const bottomProducts = products.slice(4);
+  const cardBaseStyle = {
+    borderRadius: "22px",
+    backgroundColor: "#fcfcfc",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.04)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    cursor: "pointer",
+    transition: "transform 0.15s ease, box-shadow 0.15s ease",
+  };
 
   return (
-    <main className="page">
-      <header className="header">
-        <div className="logoWrap">
-          <img
-            src="/logo-profsigorta-v2.png"
-            alt="Prof Sigorta"
-            className="logo"
-          />
-        </div>
+    <main
+      style={{
+        minHeight: "100vh",
+        background:
+          "linear-gradient(180deg, #f0f2f5 0%, #e6ebee 40%, #dde3e8 100%)",
+        fontFamily:
+          "-apple-system, BlinkMacSystemFont, system-ui, Segoe UI, sans-serif",
+        color: "#333",
+        overflowX: "hidden",
+      }}
+    >
+      <style>{`
+        * { box-sizing: border-box; }
 
-        <nav className="desktopNav">
-          <span>Ürünlerimiz</span>
-          <span>Kampanyalar</span>
-          <span>Poliçe İşlemleri</span>
-          <span>Poliçe İptal İşlemleri</span>
-        </nav>
-
-        <div className="desktopActions">
-          <button
-            type="button"
-            className="waBtn"
-            onClick={() => window.open("https://wa.me/905301096161", "_blank")}
-          >
-            <img src="/icons/wh.svg" alt="WhatsApp" className="waIcon" />
-            WhatsApp Destek
-          </button>
-
-          <button type="button" className="loginBtn">
-            Giriş Yap / Üye Ol
-          </button>
-        </div>
-
-        <button type="button" className="mobileMenuBtn">
-          ☰
-        </button>
-      </header>
-
-      <section className="hero">
-        <div className="leftArea">
-          <h1 className="title">Doğru Poliçe, Doğru Fiyat</h1>
-
-          <div className="desktopTopGrid">
-            {topProducts.map((p) => (
-              <Link
-                key={p.id}
-                href={`/police/${p.slug}`}
-                className="cardLink"
-              >
-                <div className="card cardLarge">
-                  <div className="iconArea iconAreaLarge">
-                    <img src={p.icon} alt={p.title} className="iconLarge" />
-                  </div>
-                  <div className="cardTitle cardTitleLarge">{p.title}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="desktopBottomGrid">
-            {bottomProducts.map((p) => (
-              <Link
-                key={p.id}
-                href={`/police/${p.slug}`}
-                className="cardLink"
-              >
-                <div className="card cardSmall">
-                  <div className="iconArea iconAreaSmall">
-                    <img src={p.icon} alt={p.title} className="iconSmall" />
-                  </div>
-                  <div className="cardTitle cardTitleSmall">{p.title}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="mobileGrid">
-            {products.map((p) => (
-              <Link
-                key={p.id}
-                href={`/police/${p.slug}`}
-                className="cardLink"
-              >
-                <div className="card mobileCard">
-                  <div className="iconArea mobileIconArea">
-                    <img
-                      src={p.icon}
-                      alt={p.title}
-                      className={p.large ? "iconMobileLarge" : "iconMobileSmall"}
-                    />
-                  </div>
-                  <div className="cardTitle mobileCardTitle">{p.title}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <div className="avatarArea">
-          <img
-            src="/avatar-v3.png"
-            alt="Prof Sigorta Avatar"
-            className="avatar"
-          />
-        </div>
-      </section>
-
-      <style jsx>{`
-        .page {
-          min-height: 100vh;
-          background: linear-gradient(
-            180deg,
-            #f0f2f5 0%,
-            #e6ebee 40%,
-            #dde3e8 100%
-          );
-          font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI",
-            sans-serif;
-          color: #333;
-          overflow-x: hidden;
+        .ps-header {
+          background: #fff;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+          position: sticky;
+          top: 0;
+          z-index: 10;
         }
 
-        .header {
-          height: 76px;
+        .ps-header-inner {
+          max-width: 1400px;
+          margin: 0 auto;
+          min-height: 76px;
+          padding: 0 32px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 32px;
-          background: #fff;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-          position: sticky;
-          top: 0;
-          z-index: 20;
+          gap: 20px;
         }
 
-        .logo {
+        .ps-logo {
           height: 54px;
           width: auto;
           display: block;
         }
 
-        .desktopNav {
+        .ps-nav {
           display: flex;
           align-items: center;
           gap: 28px;
           font-size: 15px;
           font-weight: 500;
           color: #555;
+          white-space: nowrap;
         }
 
-        .desktopActions {
+        .ps-nav-dd {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          cursor: pointer;
+        }
+
+        .ps-actions {
           display: flex;
           align-items: center;
           gap: 12px;
+          white-space: nowrap;
         }
 
-        .waBtn {
+        .ps-btn-wa {
           display: flex;
           align-items: center;
           gap: 8px;
           padding: 9px 20px;
           border-radius: 999px;
-          border: 1.2px solid #25d366;
-          background: #eafff1;
+          border: 1.2px solid #25D366;
+          background-color: #eafff1;
           font-size: 14px;
           font-weight: 700;
           color: #128c7e;
           cursor: pointer;
         }
 
-        .waIcon {
-          width: 18px;
-          height: 18px;
-        }
-
-        .loginBtn {
+        .ps-btn-login {
           padding: 9px 22px;
           border-radius: 999px;
           border: 1.2px solid #ff7f32;
-          background: #fff8f3;
+          background-color: #fff8f3;
           font-size: 14px;
           font-weight: 700;
           color: #d96615;
           cursor: pointer;
         }
 
-        .mobileMenuBtn {
-          display: none;
-          width: 52px;
-          height: 52px;
-          border: none;
-          border-radius: 16px;
-          background: #f2f2f2;
-          font-size: 28px;
-          color: #444;
-          cursor: pointer;
-        }
-
-        .hero {
-          max-width: 1180px;
-          margin: 32px auto 56px;
-          padding: 0 32px;
+        .ps-shell {
+          max-width: 1320px;
+          margin: 0 auto;
+          padding: 32px 24px 56px;
           display: flex;
           align-items: center;
-          gap: 34px;
-          box-sizing: border-box;
+          gap: 22px;
         }
 
-        .leftArea {
+        .ps-left {
           flex: 1 1 auto;
           min-width: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
-        .title {
+        .ps-title {
           font-size: 34px;
           font-weight: 700;
-          margin: 0 0 24px;
+          margin: 0 0 18px;
           color: #444;
           text-align: center;
         }
 
-        .desktopTopGrid {
+        .ps-row-top {
+          width: 100%;
+          max-width: 1040px;
           display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 22px;
-          margin-bottom: 26px;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+          margin-bottom: 28px;
         }
 
-        .desktopBottomGrid {
+        .ps-row-bottom {
+          width: 100%;
+          max-width: 1040px;
           display: grid;
-          grid-template-columns: repeat(5, minmax(0, 1fr));
+          grid-template-columns: repeat(5, 1fr);
           gap: 20px;
         }
 
-        .mobileGrid {
-          display: none;
-        }
-
-        .cardLink {
+        .ps-link {
           text-decoration: none;
           color: inherit;
           display: block;
         }
 
-        .card {
-          background: #fcfcfc;
-          border-radius: 22px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-          text-align: center;
-          border: 1px solid rgba(0, 0, 0, 0.02);
-          transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .card:hover {
+        .ps-link:hover .ps-card-top,
+        .ps-link:hover .ps-card-bottom {
           transform: translateY(-2px);
-          box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+          box-shadow: 0 8px 18px rgba(0,0,0,0.07);
         }
 
-        .cardLarge {
-          height: 170px;
-          padding: 16px 12px 12px;
-          display: flex;
-          flex-direction: column;
+        .ps-card-top {
+          width: 100%;
+          min-height: 150px;
+          padding: 20px 22px;
         }
 
-        .cardSmall {
-          height: 160px;
-          padding: 14px 10px 10px;
-          display: flex;
-          flex-direction: column;
+        .ps-card-bottom {
+          width: 100%;
+          min-height: 150px;
+          padding: 18px 20px;
         }
 
-        .iconArea {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .iconLarge {
-          width: 96px;
-          height: 96px;
-          object-fit: contain;
-          display: block;
-        }
-
-        .iconSmall {
-          width: 70px;
-          height: 70px;
-          object-fit: contain;
-          display: block;
-        }
-
-        .cardTitle {
-          display: flex;
-          align-items: flex-end;
-          justify-content: center;
-          text-align: center;
-          color: #333;
-          font-weight: 600;
-        }
-
-        .cardTitleLarge {
-          min-height: 42px;
+        .ps-title-top {
           font-size: 15px;
-          line-height: 20px;
-          padding-bottom: 8px;
+          font-weight: 600;
+          color: #333;
+          line-height: 1.25;
+          white-space: normal;
         }
 
-        .cardTitleSmall {
-          min-height: 38px;
+        .ps-title-bottom {
           font-size: 14px;
-          line-height: 19px;
-          padding-bottom: 6px;
+          font-weight: 600;
           color: #444;
+          line-height: 1.25;
+          white-space: normal;
         }
 
-        .avatarArea {
-          flex: 0 0 220px;
+        .ps-avatar-wrap {
+          flex: 0 0 280px;
           display: flex;
           align-items: center;
-          justify-content: flex-start;
+          justify-content: center;
+          padding-top: 14px;
         }
 
-        .avatar {
-          max-height: 520px;
+        .ps-avatar {
+          max-height: 470px;
           width: auto;
+          max-width: 100%;
           display: block;
         }
 
-        @media (max-width: 900px) {
-          .header {
-            height: auto;
-            min-height: 84px;
-            padding: 14px 16px;
-          }
-
-          .logo {
-            height: 46px;
-          }
-
-          .desktopNav,
-          .desktopActions,
-          .avatarArea,
-          .desktopTopGrid,
-          .desktopBottomGrid {
-            display: none;
-          }
-
-          .mobileMenuBtn {
-            display: inline-flex;
-            align-items: center;
+        @media (max-width: 1180px) {
+          .ps-header-inner {
+            padding: 12px 20px;
+            flex-wrap: wrap;
             justify-content: center;
           }
 
-          .hero {
-            max-width: 100%;
-            margin: 18px auto 28px;
-            padding: 0 14px;
-            display: block;
+          .ps-nav {
+            order: 2;
+            width: 100%;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
           }
 
-          .title {
-            font-size: 30px;
-            line-height: 36px;
-            margin-bottom: 18px;
+          .ps-actions {
+            order: 3;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
           }
 
-          .mobileGrid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-          }
-
-          .mobileCard {
-            min-height: 176px;
-            padding: 14px 10px 10px;
-            display: flex;
+          .ps-shell {
+            padding: 28px 18px 46px;
             flex-direction: column;
           }
 
-          .mobileIconArea {
-            flex: 1;
-            min-height: 86px;
+          .ps-avatar-wrap {
+            flex: 0 0 auto;
+            padding-top: 0;
           }
 
-          .iconMobileLarge {
-            width: 88px;
-            height: 88px;
-            object-fit: contain;
-            display: block;
+          .ps-avatar {
+            max-height: 340px;
+          }
+        }
+
+        @media (max-width: 900px) {
+          .ps-row-top {
+            grid-template-columns: repeat(2, 1fr);
           }
 
-          .iconMobileSmall {
-            width: 68px;
-            height: 68px;
-            object-fit: contain;
-            display: block;
+          .ps-row-bottom {
+            grid-template-columns: repeat(2, 1fr);
           }
 
-          .mobileCardTitle {
-            min-height: 40px;
+          .ps-title {
+            font-size: 28px;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .ps-header-inner {
+            padding: 12px 14px;
+          }
+
+          .ps-logo {
+            height: 44px;
+          }
+
+          .ps-nav {
+            display: none;
+          }
+
+          .ps-actions {
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          .ps-btn-wa,
+          .ps-btn-login {
+            width: 100%;
+            max-width: 280px;
+            justify-content: center;
             font-size: 13px;
-            line-height: 18px;
-            font-weight: 700;
-            color: #2f3b52;
-            padding-bottom: 6px;
+            padding: 8px 14px;
+          }
+
+          .ps-shell {
+            padding: 20px 14px 34px;
+          }
+
+          .ps-title {
+            font-size: 24px;
+            margin-bottom: 14px;
+          }
+
+          .ps-row-top,
+          .ps-row-bottom {
+            gap: 14px;
+          }
+
+          .ps-card-top,
+          .ps-card-bottom {
+            min-height: 132px;
+            padding: 16px 12px;
+          }
+
+          .ps-top-icon {
+            width: 76px !important;
+            height: 76px !important;
+            margin-bottom: 8px !important;
+          }
+
+          .ps-bottom-icon {
+            width: 58px !important;
+            height: 58px !important;
+            margin-bottom: 8px !important;
+          }
+
+          .ps-title-top,
+          .ps-title-bottom {
+            font-size: 13px;
+          }
+
+          .ps-avatar-wrap {
+            display: none;
+          }
+        }
+
+        @media (max-width: 430px) {
+          .ps-row-top,
+          .ps-row-bottom {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
+
+      <header className="ps-header">
+        <div className="ps-header-inner">
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <img
+              src="/logo-profsigorta-v2.png"
+              alt="Prof Sigorta"
+              className="ps-logo"
+            />
+          </div>
+
+          <nav className="ps-nav">
+            <span style={{ cursor: "pointer" }}>Ürünlerimiz</span>
+            <span style={{ cursor: "pointer" }}>Kampanyalar</span>
+
+            <div className="ps-nav-dd">
+              <span>Poliçe İşlemleri</span>
+              <span style={{ fontSize: 10 }}>▼</span>
+            </div>
+
+            <div className="ps-nav-dd">
+              <span>Poliçe İptal İşlemleri</span>
+              <span style={{ fontSize: 10 }}>▼</span>
+            </div>
+          </nav>
+
+          <div className="ps-actions">
+            <button className="ps-btn-wa">
+              <img
+                src="/icons/wh.svg"
+                alt="WhatsApp"
+                style={{ width: 18, height: 18, display: "inline-block" }}
+              />
+              WhatsApp Destek
+            </button>
+
+            <button className="ps-btn-login">Giriş Yap / Üye Ol</button>
+          </div>
+        </div>
+      </header>
+
+      <div className="ps-shell">
+        <div className="ps-left">
+          <h1 className="ps-title">Doğru Poliçe, Doğru Fiyat</h1>
+
+          <div className="ps-row-top">
+            {products.slice(0, 4).map((p) => (
+              <Link
+                key={p.id}
+                href={"/police/" + p.slug}
+                className="ps-link"
+              >
+                <div style={cardBaseStyle} className="ps-card-top">
+                  <img
+                    src={p.icon}
+                    alt={p.title}
+                    className="ps-top-icon"
+                    style={{
+                      width: p.slug === "kasko-sigortasi" ? 94 : 100,
+                      height: p.slug === "kasko-sigortasi" ? 94 : 100,
+                      objectFit: "contain",
+                      display: "block",
+                      margin: "0 auto 10px auto",
+                    }}
+                  />
+                  <div className="ps-title-top">{p.title}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="ps-row-bottom">
+            {products.slice(4, 9).map((p) => (
+              <Link
+                key={p.id}
+                href={"/police/" + p.slug}
+                className="ps-link"
+              >
+                <div style={cardBaseStyle} className="ps-card-bottom">
+                  <img
+                    src={p.icon}
+                    alt={p.title}
+                    className="ps-bottom-icon"
+                    style={{
+                      width: 72,
+                      height: 72,
+                      objectFit: "contain",
+                      marginBottom: 10,
+                    }}
+                  />
+                  <div className="ps-title-bottom">{p.title}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="ps-avatar-wrap">
+          <img
+            src="/avatar-v3.png"
+            alt="Prof Sigorta Avatar"
+            className="ps-avatar"
+          />
+        </div>
+      </div>
     </main>
   );
 }
